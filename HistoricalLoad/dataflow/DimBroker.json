@@ -1,0 +1,60 @@
+{
+	"name": "DimBroker",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Dimbrokerraw",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dimdate",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText8",
+						"type": "DatasetReference"
+					},
+					"name": "Dimbroker"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "SurrogateKey1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Sort1"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "minEffectiveDate"
+				},
+				{
+					"name": "Join1"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tEmployeeID as short,\n\t\tManagerID as short,\n\t\tEmployeeFirstName as string,\n\t\tEmployeeLastName as string,\n\t\tEmployeeMI as string,\n\t\tEmployeeJobCode as short,\n\t\tEmployeeBranch as string,\n\t\tEmployeeOffice as string,\n\t\tEmployeePhone as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> source1\nsource(output(\n\t\tSK_DateID as integer,\n\t\tDateValue as date,\n\t\tDateDesc as string,\n\t\tCalendarYearID as decimal(4,0),\n\t\tCalendarYearDesc as string,\n\t\tCalendarQtrID as decimal(5,0),\n\t\tCalendarQtrDesc as string,\n\t\tCalendarMonthID as decimal(6,0),\n\t\tCalendarMonthDesc as string,\n\t\tCalendarWeekID as decimal(6,0),\n\t\tCalendarWeekDesc as string,\n\t\tDayOfWeeknumeric as decimal(1,0),\n\t\tDayOfWeekDesc as string,\n\t\tFiscalYearID as decimal(4,0),\n\t\tFiscalYearDesc as string,\n\t\tFiscalQtrID as decimal(5,0),\n\t\tFiscalQtrDesc as string,\n\t\tHolidayFlag as boolean\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source2\nsource1 filter(EmployeeJobCode==314) ~> Filter1\nFilter1 select(mapColumn(\n\t\tBrokerID = EmployeeID,\n\t\tManagerID,\n\t\tFirstName = EmployeeFirstName,\n\t\tLastName = EmployeeLastName,\n\t\tMiddleInitial = EmployeeMI,\n\t\tBranch = EmployeeBranch,\n\t\tOffice = EmployeeOffice,\n\t\tPhone = EmployeePhone\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 keyGenerate(output(SK_BrokerID as long),\n\tstartAt: 1L) ~> SurrogateKey1\nSurrogateKey1 derive(IsCurrent = true(),\n\t\tBatchID = 1,\n\t\tEndDate = toDate('9999-12-31','yyyy-MM-dd')) ~> DerivedColumn1\nSelect2 sort(asc(EffectiveDate, true)) ~> Sort1\nsource2 select(mapColumn(\n\t\tEffectiveDate = DateValue\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSort1 filter(EffectiveDate == toDate('1950-01-01', 'yyyy-MM-dd')) ~> minEffectiveDate\nminEffectiveDate, DerivedColumn1 join(true(),\n\tjoinType:'cross',\n\tbroadcast: 'none')~> Join1\nJoin1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DimBroker'],\n\tpartitionBy('hash', 1)) ~> Dimbroker"
+		}
+	}
+}

@@ -1,0 +1,48 @@
+{
+	"name": "Customer",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Customer",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "customeroutput",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "Sort1"
+				},
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "Sort2"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource1 derive({TPCDI:Actions} = toString(byName('TPCDI:Actions')),\n\t\t{xmlns:TPCDI} = toString(byName('xmlns:TPCDI')),\n\t\t{TPCDI:Action} = toString(byName('TPCDI:Action')),\n\t\tActionType = toString(byName('ActionType')),\n\t\tActionTS = toTimestamp(toString(byName('ActionTS')),'yyyy-MM-dd\\'T\\'HH:mm:ss'),\n\t\tCustomer = toString(byName('Customer')),\n\t\tC_ID = toInteger(byName('C_ID')),\n\t\tC_TAX_ID = toString(byName('C_TAX_ID')),\n\t\tC_GNDR = toString(byName('C_GNDR')),\n\t\tC_TIER = toString(byName('C_TIER')),\n\t\tC_DOB = toString(byName('C_DOB')),\n\t\tName = toString(byName('Name')),\n\t\tC_L_NAME = toString(byName('C_L_NAME')),\n\t\tC_F_NAME = toString(byName('C_F_NAME')),\n\t\tC_M_NAME = toString(byName('C_M_NAME')),\n\t\tAddress = toString(byName('Address')),\n\t\tC_ADLINE1 = toString(byName('C_ADLINE1')),\n\t\tC_ADLINE2 = toString(byName('C_ADLINE2')),\n\t\tC_ZIPCODE = toString(byName('C_ZIPCODE')),\n\t\tC_CITY = toString(byName('C_CITY')),\n\t\tC_STATE_PROV = toString(byName('C_STATE_PROV')),\n\t\tC_CTRY = toString(byName('C_CTRY')),\n\t\tContactInfo = toString(byName('ContactInfo')),\n\t\tC_PRIM_EMAIL = toString(byName('C_PRIM_EMAIL')),\n\t\tC_ALT_EMAIL = toString(byName('C_ALT_EMAIL')),\n\t\tC_PHONE_1 = toString(byName('C_PHONE_1')),\n\t\tC_CTRY_CODE26 = toString(byName('C_CTRY_CODE26')),\n\t\tC_AREA_CODE27 = toString(byName('C_AREA_CODE27')),\n\t\tC_LOCAL28 = toString(byName('C_LOCAL28')),\n\t\tC_EXT29 = toString(byName('C_EXT29')),\n\t\tC_PHONE_2 = toString(byName('C_PHONE_2')),\n\t\tC_CTRY_CODE31 = toString(byName('C_CTRY_CODE31')),\n\t\tC_AREA_CODE32 = toString(byName('C_AREA_CODE32')),\n\t\tC_LOCAL33 = toString(byName('C_LOCAL33')),\n\t\tC_EXT34 = toString(byName('C_EXT34')),\n\t\tC_PHONE_3 = toString(byName('C_PHONE_3')),\n\t\tC_CTRY_CODE36 = toString(byName('C_CTRY_CODE36')),\n\t\tC_AREA_CODE37 = toString(byName('C_AREA_CODE37')),\n\t\tC_LOCAL38 = toString(byName('C_LOCAL38')),\n\t\tC_EXT39 = toString(byName('C_EXT39')),\n\t\tTaxInfo = toString(byName('TaxInfo')),\n\t\tC_LCL_TX_ID = toString(byName('C_LCL_TX_ID')),\n\t\tC_NAT_TX_ID = toString(byName('C_NAT_TX_ID')),\n\t\tAccount = toString(byName('Account')),\n\t\tCA_ID = toString(byName('CA_ID')),\n\t\tCA_TAX_ST = toString(byName('CA_TAX_ST')),\n\t\tCA_B_ID = toString(byName('CA_B_ID')),\n\t\tCA_NAME = toString(byName('CA_NAME'))) ~> MapDrifted1\nMapDrifted1 filter(ActionType == 'NEW'||ActionType== 'UPDCUST' || ActionType == 'INACT') ~> Filter1\nFilter1 sort(asc(C_ID, true),\n\tasc(ActionTS, true)) ~> Sort1\nSort1 aggregate(groupBy(C_ID = C_ID),\n\ttaxID = last(C_TAX_ID, true()),\n\t\tTier = last(C_TIER,true()),\n\t\tstatus = iif(last(ActionType, true())=='INACT', 'INACTIVE', 'ACTIVE'),\n\t\tLastName = last(C_L_NAME, true()),\n\t\tFirstName = last(C_F_NAME, true()),\n\t\tMiddleInitial = last(C_M_NAME, true()),\n\t\tGender = iif(upper(last(C_GNDR,true()))=='M'||upper(last(C_GNDR,true()))=='F', upper(last(C_GNDR,true())),'U'),\n\t\tDOB = last(C_DOB, true()),\n\t\tEmail1 = last(C_PRIM_EMAIL,true()),\n\t\tEmail2 = last(C_ALT_EMAIL, true()),\n\t\tAddressLine1 = last(C_ADLINE1, true()),\n\t\tAddressLine2 = last(C_ADLINE2, true()),\n\t\tPostalcode = last(C_ZIPCODE, true()),\n\t\tCity = last(C_CITY, true()),\n\t\tStateProv = last(C_STATE_PROV, true()),\n\t\tCountry = last(C_CTRY, true()),\n\t\tPhone1 = concat(iif(!isNull(last(C_CTRY_CODE26,true()))&& !isNull(last(C_LOCAL28,true())) && !isNull(last(C_AREA_CODE27,true())),'+'+last(C_CTRY_CODE26,true()),''),\r\n iif(!isNull(last(C_AREA_CODE27,true()))&& !isNull(last(C_LOCAL28,true())),'('+last(C_AREA_CODE27,true())+')',''),\r\n iif(!isNull(last(C_LOCAL28,true())),last(C_LOCAL28,true()) + last(C_EXT29, true()),'')),\n\t\tPhone2 = concat(iif(!isNull(last(C_CTRY_CODE31,true()))&& !isNull(last(C_LOCAL33,true())) && !isNull(last(C_AREA_CODE32,true())),'+'+last(C_CTRY_CODE31,true()),''),\r\n iif(!isNull(last(C_AREA_CODE32,true()))&& !isNull(last(C_LOCAL33,true())),'('+last(C_AREA_CODE32,true())+')',''),\r\n iif(!isNull(last(C_LOCAL33,true())),last(C_LOCAL33,true()) + last(C_EXT34, true()),'')),\n\t\tPhone3 = concat(iif(!isNull(last(C_CTRY_CODE36,true()))&& !isNull(last(C_LOCAL38,true())) && !isNull(last(C_AREA_CODE37,true())),'+'+last(C_CTRY_CODE36,true()),''),\r\n iif(!isNull(last(C_AREA_CODE37,true()))&& !isNull(last(C_LOCAL38,true())),'('+last(C_AREA_CODE37,true())+')',''),\r\n iif(!isNull(last(C_LOCAL38,true())),last(C_LOCAL38,true()) + last(C_EXT39, true()),''))) ~> Aggregate1\nAggregate1 sort(asc(C_ID, true)) ~> Sort2\nSort2 select(mapColumn(\n\t\tC_ID,\n\t\ttaxID,\n\t\tTier,\n\t\tstatus,\n\t\tLastName,\n\t\tFirstName,\n\t\tMiddleInitial,\n\t\tGender,\n\t\tDOB,\n\t\tEmail1,\n\t\tEmail2,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tPostalcode,\n\t\tCity,\n\t\tStateProv,\n\t\tCountry,\n\t\tPhone1,\n\t\tPhone2,\n\t\tPhone3\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['customeralmost2'],\n\tmapColumn(\n\t\tC_ID,\n\t\ttaxID,\n\t\tTier,\n\t\tstatus,\n\t\tLastName,\n\t\tFirstName,\n\t\tMiddleInitial,\n\t\tGender,\n\t\tDOB,\n\t\tEmail1,\n\t\tEmail2,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tPostalcode,\n\t\tCity,\n\t\tStateProv,\n\t\tCountry,\n\t\tPhone1,\n\t\tPhone2,\n\t\tPhone3\n\t),\n\tpartitionBy('hash', 1)) ~> sink1"
+		}
+	}
+}

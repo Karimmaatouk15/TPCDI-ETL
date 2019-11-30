@@ -1,0 +1,102 @@
+{
+	"name": "AzureSqlTable5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_CompanyID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CompanyID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Status",
+				"type": "char"
+			},
+			{
+				"name": "Name",
+				"type": "char"
+			},
+			{
+				"name": "Industry",
+				"type": "char"
+			},
+			{
+				"name": "SPrating",
+				"type": "char"
+			},
+			{
+				"name": "isLowGrade",
+				"type": "bit"
+			},
+			{
+				"name": "CEO",
+				"type": "char"
+			},
+			{
+				"name": "AddressLine1",
+				"type": "char"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "char"
+			},
+			{
+				"name": "PostalCode",
+				"type": "char"
+			},
+			{
+				"name": "City",
+				"type": "char"
+			},
+			{
+				"name": "StateProv",
+				"type": "char"
+			},
+			{
+				"name": "Country",
+				"type": "char"
+			},
+			{
+				"name": "Description",
+				"type": "char"
+			},
+			{
+				"name": "FoundingDate",
+				"type": "date"
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "BatchID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "date"
+			},
+			{
+				"name": "EndDate",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCompany"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

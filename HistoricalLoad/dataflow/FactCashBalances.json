@@ -1,0 +1,36 @@
+{
+	"name": "FactCashBalances",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CashTransaction",
+						"type": "DatasetReference"
+					},
+					"name": "CashTransaction"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "CashFactBalances",
+						"type": "DatasetReference"
+					},
+					"name": "CashFactBalances"
+				}
+			],
+			"transformations": [
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CashTransaction\nCashTransaction derive(CT_DTS = toString(byName('_col0_')),\n\t\tCT_AMT = toString(byName('_col1_')),\n\t\tCT_NAME = toString(byName('_col2_'))) ~> MapDrifted1\nMapDrifted1 select(mapColumn(\n\t\tCT_CA_ID = Column_1,\n\t\tCT_DTS,\n\t\tCT_AMT,\n\t\tCT_NAME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> CashFactBalances"
+		}
+	}
+}

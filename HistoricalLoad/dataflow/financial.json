@@ -1,0 +1,54 @@
+{
+	"name": "financial",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "financialraw",
+						"type": "DatasetReference"
+					},
+					"name": "financialraw"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable5",
+						"type": "DatasetReference"
+					},
+					"name": "company"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText6",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FIN"
+				},
+				{
+					"name": "transformcolumns"
+				},
+				{
+					"name": "removecol1"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "Select3"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\traw as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> financialraw\nsource(output(\n\t\tSK_CompanyID as integer,\n\t\tCompanyID as integer,\n\t\tStatus as string,\n\t\tName as string,\n\t\tIndustry as string,\n\t\tSPrating as string,\n\t\tisLowGrade as boolean,\n\t\tCEO as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tPostalCode as string,\n\t\tCity as string,\n\t\tStateProv as string,\n\t\tCountry as string,\n\t\tDescription as string,\n\t\tFoundingDate as date,\n\t\tIsCurrent as boolean,\n\t\tBatchID as decimal(5,0),\n\t\tEffectiveDate as date,\n\t\tEndDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> company\nfinancialraw filter(equals(substring(raw, 16, 3),'FIN')) ~> FIN\nFIN derive(PTS = substring(raw, 1, 15),\n\t\tRecType = substring(raw, 16, 3),\n\t\t{Year } = substring(raw, 19, 4),\n\t\tQuarter = substring(raw, 23, 1),\n\t\tQtrStartDate = toDate(substring(raw, 24, 8),'yyyyMMdd'),\n\t\tPostingDate = toDate(substring(raw, 32, 8), 'yyyyMMdd'),\n\t\t{Revenue } = substring(raw, 40, 17),\n\t\tEarnings = substring(raw, 57, 17),\n\t\tEPS = substring(raw, 74, 12),\n\t\t{DilutedEPS } = substring(raw, 86, 12),\n\t\tMargin = substring(raw, 98, 12),\n\t\tInventory = substring(raw, 110, 17),\n\t\tAssets = substring(raw, 127, 17),\n\t\tLiabilities = substring(raw, 144, 17),\n\t\tShOut = substring(raw, 161, 13),\n\t\tDilutedShOut = substring(raw, 174, 13),\n\t\tCoNameOrCIK = substring(raw, 187)) ~> transformcolumns\ntransformcolumns select(mapColumn(\n\t\tPTS,\n\t\tRecType,\n\t\t{Year },\n\t\tQuarter,\n\t\tQtrStartDate,\n\t\tPostingDate,\n\t\t{Revenue },\n\t\tEarnings,\n\t\tEPS,\n\t\t{DilutedEPS },\n\t\tMargin,\n\t\tInventory,\n\t\tAssets,\n\t\tLiabilities,\n\t\tShOut,\n\t\tDilutedShOut,\n\t\tCoNameOrCIK\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> removecol1\nremovecol1, Select2 join(toDate(substring(PTS, 1,8), 'yyyyMMdd') >= EffectiveDate && toDate(substring(PTS, 1,8), 'yyyyMMdd') < EndDate && (CoNameOrCIK ==Name || CompanyID == toInteger(CoNameOrCIK)),\n\tjoinType:'cross',\n\tbroadcast: 'none')~> Join1\ncompany select(mapColumn(\n\t\tSK_CompanyID,\n\t\tCompanyID,\n\t\tName,\n\t\tEffectiveDate,\n\t\tEndDate\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nJoin1 select(mapColumn(\n\t\tFI_YEAR = {Year },\n\t\tFI_QTR = Quarter,\n\t\tFI_QTR_START_DATE = QtrStartDate,\n\t\tFI_REVENUE = {Revenue },\n\t\tFI_NET_EARN = Earnings,\n\t\tFI_BASIC_EPS = EPS,\n\t\tFI_DILUT_EPS = {DilutedEPS },\n\t\tFI_MARGIN = Margin,\n\t\tFI_INVENTORY = Inventory,\n\t\tFI_ASSETS = Assets,\n\t\tFI_LIABILITY = Liabilities,\n\t\tFI_OUT_BASIC = ShOut,\n\t\tFI_OUT_DILUT = DilutedShOut,\n\t\tCoNameOrCIK,\n\t\tSK_CompanyID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select3\nSelect3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['financialrecords'],\n\tmapColumn(\n\t\tFI_YEAR,\n\t\tFI_QTR,\n\t\tFI_QTR_START_DATE,\n\t\tFI_REVENUE,\n\t\tFI_NET_EARN,\n\t\tFI_BASIC_EPS,\n\t\tFI_DILUT_EPS,\n\t\tFI_MARGIN,\n\t\tFI_INVENTORY,\n\t\tFI_ASSETS,\n\t\tFI_LIABILITY,\n\t\tFI_OUT_BASIC,\n\t\tFI_OUT_DILUT,\n\t\tCoNameOrCIK,\n\t\tSK_CompanyID\n\t),\n\tpartitionBy('hash', 1)) ~> sink1"
+		}
+	}
+}

@@ -1,0 +1,77 @@
+{
+	"name": "DelimitedText9",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DimBroker",
+				"container": "new"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "BrokerID",
+				"type": "String"
+			},
+			{
+				"name": "ManagerID",
+				"type": "String"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "MiddleInitial",
+				"type": "String"
+			},
+			{
+				"name": "Branch",
+				"type": "String"
+			},
+			{
+				"name": "Office",
+				"type": "String"
+			},
+			{
+				"name": "Phone",
+				"type": "String"
+			},
+			{
+				"name": "SK_BrokerID",
+				"type": "String"
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "String"
+			},
+			{
+				"name": "IsCurrent",
+				"type": "String"
+			},
+			{
+				"name": "BatchID",
+				"type": "String"
+			},
+			{
+				"name": "EndDate",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
