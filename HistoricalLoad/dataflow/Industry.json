@@ -1,0 +1,36 @@
+{
+	"name": "Industry",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "IndustryRaw",
+						"type": "DatasetReference"
+					},
+					"name": "IndustryRaw"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "industrysave",
+						"type": "DatasetReference"
+					},
+					"name": "Industry"
+				}
+			],
+			"transformations": [
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tIN_ID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> IndustryRaw\nIndustryRaw derive(IN_Name = toString(byName('_col0_')),\n\t\tIN_SC_ID = toString(byName('_col1_'))) ~> MapDrifted1\nMapDrifted1 select(mapColumn(\n\t\tIN_ID,\n\t\tIN_Name,\n\t\tIN_SC_ID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(input(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string,\n\t\tColumn_5 as string,\n\t\tColumn_6 as string,\n\t\tColumn_7 as string,\n\t\tColumn_8 as string,\n\t\tColumn_9 as string,\n\t\tColumn_10 as string,\n\t\tColumn_11 as string,\n\t\tColumn_12 as string,\n\t\tColumn_13 as string,\n\t\tColumn_14 as string,\n\t\tColumn_15 as string,\n\t\tColumn_16 as string,\n\t\tColumn_17 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1)) ~> Industry"
+		}
+	}
+}

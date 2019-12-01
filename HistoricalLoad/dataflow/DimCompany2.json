@@ -1,0 +1,64 @@
+{
+	"name": "DimCompany2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "StatusTypeTable",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "companycsv2",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "Industrycsv",
+						"type": "DatasetReference"
+					},
+					"name": "Industry"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "companysave",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "SurrogateKey1"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "Sort1"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tST_ID as string,\n\t\tST_NAME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source2\nsource(output(\n\t\tPTS as string,\n\t\tRecType as string,\n\t\tCompanyName as string,\n\t\tCIK as string,\n\t\tStatus as string,\n\t\tIndustryID as string,\n\t\tSPrating as string,\n\t\tisLowGrade as string,\n\t\tFoundingDate as string,\n\t\tAddrLine1 as string,\n\t\tAddrLine2 as string,\n\t\tPostalCode as string,\n\t\tCity as string,\n\t\tStateProvince as string,\n\t\tCountry as string,\n\t\tCEOname as string,\n\t\tDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true) ~> source3\nsource(output(\n\t\tIN_ID as string,\n\t\tIN_Name as string,\n\t\tIN_SC_ID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> Industry\nSurrogateKey1 derive(isLowGrade = iif(startsWith('A', Status),  false(), true()),\n\t\tCompanyID = toInteger(CIK),\n\t\tEffectiveDate = iifNull(toDate(substring(PTS,1,8),'yyyyMMdd'),toDate('20170707','yyyyMMdd')),\n\t\tisCurrent = true(),\n\t\tEndDate = toDate('99991231','yyyyMMdd'),\n\t\tBatchID = 00001) ~> DerivedColumn1\nsource3 keyGenerate(output(SK_CompanyID as long),\n\tstartAt: 1L) ~> SurrogateKey1\nDerivedColumn1, source2 join(equals(ST_ID, Status),\n\tjoinType:'cross',\n\tbroadcast: 'none')~> Join1\nJoin1 select(mapColumn(\n\t\tSK_CompanyID,\n\t\tPTS,\n\t\tRecType,\n\t\tCompanyName,\n\t\tCIK,\n\t\tStatus = ST_NAME,\n\t\tIndustry = IndustryID,\n\t\t{SPrating } = SPrating,\n\t\tisLowGrade,\n\t\tFoundingDate,\n\t\tAddrLine1,\n\t\tAddrLine2,\n\t\tPostalCode,\n\t\tCity,\n\t\tProvinceState = StateProvince,\n\t\tCountry,\n\t\tCEOname,\n\t\tDescription,\n\t\tCompanyID,\n\t\tEffectiveDate,\n\t\tisCurrent,\n\t\tEndDate,\n\t\tBatchID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1, Industry join(equals(IN_ID, Industry),\n\tjoinType:'cross',\n\tbroadcast: 'none')~> Join2\nSort1 select(mapColumn(\n\t\tSK_CompanyID,\n\t\tCompanyID,\n\t\tStatus,\n\t\tCompanyName,\n\t\tIndustry = IN_Name,\n\t\t{SPrating },\n\t\tisLowGrade,\n\t\tCEO = CEOname,\n\t\tAddressLine1 = AddrLine1,\n\t\tAddressLine2 = AddrLine2,\n\t\tPostalCode,\n\t\tCity,\n\t\tProvStat = ProvinceState,\n\t\tCountry,\n\t\tDescription,\n\t\tFoundingDate,\n\t\tisCurrent,\n\t\tBatchID,\n\t\tEffectiveDate,\n\t\tEndDate\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nJoin2 sort(asc(CompanyID, true),\n\tasc(EffectiveDate, true)) ~> Sort1\nSelect2 sink(input(\n\t\tPTS as string,\n\t\tRecType as string,\n\t\tCompanyName as string,\n\t\tCIK as string,\n\t\tStatus as string,\n\t\tIndustryID as string,\n\t\tSPrating as string,\n\t\tisLowGrade as string,\n\t\tFoundingDate as string,\n\t\tAddrLine1 as string,\n\t\tAddrLine2 as string,\n\t\tPostalCode as string,\n\t\tCity as string,\n\t\tStateProvince as string,\n\t\tCountry as string,\n\t\tCEOname as string,\n\t\tDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['LastCompanyTrial'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

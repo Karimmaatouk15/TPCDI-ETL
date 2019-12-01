@@ -1,0 +1,38 @@
+{
+	"name": "DimCompany1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "company",
+						"type": "DatasetReference"
+					},
+					"name": "company"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "companyFIX",
+						"type": "DatasetReference"
+					},
+					"name": "company2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tcol1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> company\ncompany filter(equals(substring(col1, 17, 3),'CMP')) ~> Filter1\nFilter1 derive(PTS = substring(col1,2,15),\n\t\tRecType = substring(col1, 17, 3),\n\t\tCompanyName = substring(col1,20,60),\n\t\tCIK = substring(col1,80,10),\n\t\tStatus = substring(col1,90,4),\n\t\tIndustryID = substring(col1,94,2),\n\t\tSPrating = substring(col1,96,4),\n\t\tisLowGrade = iif(startsWith('A', substring(col1,96,4)), false(), true()),\n\t\tFoundingDate = toDate(substring(col1,100,8),'yyyyMMdd'),\n\t\tAddrLine1 = substring(col1,108,80),\n\t\tAddrLine2 = substring(col1,188,80),\n\t\tPostalCode = substring(col1,268,12),\n\t\tCity = substring(col1,280,25),\n\t\tStateProvince = substring(col1,305,20),\n\t\tCountry = substring(col1,325,24),\n\t\tCEOname = substring(col1,349,46),\n\t\tDescription = substring(col1,395,150)) ~> DerivedColumn1\nDerivedColumn1 select(mapColumn(\n\t\tPTS,\n\t\tRecType,\n\t\tCompanyName,\n\t\tCIK,\n\t\tStatus,\n\t\tIndustryID,\n\t\tSPrating,\n\t\tisLowGrade,\n\t\tFoundingDate,\n\t\tAddrLine1,\n\t\tAddrLine2,\n\t\tPostalCode,\n\t\tCity,\n\t\tStateProvince,\n\t\tCountry,\n\t\tCEOname,\n\t\tDescription\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(input(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string,\n\t\tColumn_5 as string,\n\t\tColumn_6 as string,\n\t\tColumn_7 as string,\n\t\tColumn_8 as string,\n\t\tColumn_9 as string,\n\t\tColumn_10 as string,\n\t\tColumn_11 as string,\n\t\tColumn_12 as string,\n\t\tColumn_13 as string,\n\t\tColumn_14 as string,\n\t\tColumn_15 as string,\n\t\tColumn_16 as string,\n\t\tColumn_17 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Companyyyyyyy'],\n\tpartitionBy('hash', 1)) ~> company2"
+		}
+	}
+}
