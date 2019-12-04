@@ -1,0 +1,108 @@
+{
+	"name": "DestinationDataset_1iu",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_SecurityID",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "Symbol",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Issue",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Status",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Name",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "ExchangeID",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "SK_CompanyID",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "SharesOutstanding",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "FirstTrade",
+				"type": "date",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "FirstTradeOnExchange",
+				"type": "date",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "Dividend",
+				"type": "numeric",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "BatchID",
+				"type": "numeric",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "date",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "EndDate",
+				"type": "date",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimSecurity"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

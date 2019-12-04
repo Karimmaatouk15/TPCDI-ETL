@@ -1,0 +1,129 @@
+{
+	"name": "Customer2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "customerFinal.csv",
+				"container": "customeroutput"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ActionType",
+				"type": "String"
+			},
+			{
+				"name": "AddressLine1",
+				"type": "String"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "String"
+			},
+			{
+				"name": "City",
+				"type": "String"
+			},
+			{
+				"name": "Country",
+				"type": "String"
+			},
+			{
+				"name": "CustomerID",
+				"type": "String"
+			},
+			{
+				"name": "DOB",
+				"type": "String"
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "String"
+			},
+			{
+				"name": "Email1",
+				"type": "String"
+			},
+			{
+				"name": "Email2",
+				"type": "String"
+			},
+			{
+				"name": "EndDate",
+				"type": "String"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			},
+			{
+				"name": "Gender",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "LocalTaxID",
+				"type": "String"
+			},
+			{
+				"name": "MiddleInitial",
+				"type": "String"
+			},
+			{
+				"name": "NationalTaxID",
+				"type": "String"
+			},
+			{
+				"name": "Phone1",
+				"type": "String"
+			},
+			{
+				"name": "Phone2",
+				"type": "String"
+			},
+			{
+				"name": "Phone3",
+				"type": "String"
+			},
+			{
+				"name": "PostalCode",
+				"type": "String"
+			},
+			{
+				"name": "StateProv",
+				"type": "String"
+			},
+			{
+				"name": "Status",
+				"type": "String"
+			},
+			{
+				"name": "TaxId",
+				"type": "String"
+			},
+			{
+				"name": "Tier",
+				"type": "String"
+			},
+			{
+				"name": "isCurrent",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

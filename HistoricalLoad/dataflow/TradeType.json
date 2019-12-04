@@ -1,0 +1,36 @@
+{
+	"name": "TradeType",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "TradeTypeRAW",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "TradeType2",
+						"type": "DatasetReference"
+					},
+					"name": "TradeType"
+				}
+			],
+			"transformations": [
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource1 derive({_col0_} = toString(byName('_col0_')),\n\t\t{_col1_} = toString(byName('_col1_')),\n\t\t{_col2_} = toString(byName('_col2_')),\n\t\t{_col3_} = toString(byName('_col3_'))) ~> MapDrifted1\nMapDrifted1 select(mapColumn(\n\t\tTT_ID = {_col0_},\n\t\tTT_NAME = {_col1_},\n\t\tTT_IS_SELL = {_col2_},\n\t\tTT_IS_MRKT = {_col3_}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['TradeType222'],\n\tpartitionBy('hash', 1)) ~> TradeType"
+		}
+	}
+}

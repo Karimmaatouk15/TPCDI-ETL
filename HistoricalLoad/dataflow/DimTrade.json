@@ -1,0 +1,101 @@
+{
+	"name": "DimTrade",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "TradeRAW",
+						"type": "DatasetReference"
+					},
+					"name": "TradeRAW"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText10",
+						"type": "DatasetReference"
+					},
+					"name": "TradeHistoryRAW"
+				},
+				{
+					"dataset": {
+						"referenceName": "StatusType",
+						"type": "DatasetReference"
+					},
+					"name": "Statustype"
+				},
+				{
+					"dataset": {
+						"referenceName": "TradeType",
+						"type": "DatasetReference"
+					},
+					"name": "TradeType"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable10",
+						"type": "DatasetReference"
+					},
+					"name": "DimSecurity"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimTrade",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "MapDrifted2",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "StatusTypeJoin"
+				},
+				{
+					"name": "TradeTypeJoin"
+				},
+				{
+					"name": "TradeHistoryOuterJoin"
+				},
+				{
+					"name": "Select3"
+				},
+				{
+					"name": "SKDateIDsCols"
+				},
+				{
+					"name": "SKDateIDsCols2"
+				},
+				{
+					"name": "Select5"
+				},
+				{
+					"name": "SelectCols"
+				},
+				{
+					"name": "JoinDimSecurity"
+				},
+				{
+					"name": "Select6"
+				}
+			],
+			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> TradeRAW\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> TradeHistoryRAW\nsource(output(\n\t\tST_ID as string,\n\t\tST_NAME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Statustype\nsource(output(\n\t\tTT_ID as string,\n\t\tTT_NAME as string,\n\t\tTT_IS_SELL as decimal(1,0),\n\t\tTT_IS_MRKT as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> TradeType\nsource(output(\n\t\tSK_SecurityID as integer,\n\t\tSymbol as string,\n\t\tIssue as string,\n\t\tStatus as string,\n\t\tName as string,\n\t\tExchangeID as string,\n\t\tSK_CompanyID as integer,\n\t\tSharesOutstanding as integer,\n\t\tFirstTrade as date,\n\t\tFirstTradeOnExchange as date,\n\t\tDividend as decimal(18,0),\n\t\tIsCurrent as boolean,\n\t\tBatchID as decimal(5,0),\n\t\tEffectiveDate as date,\n\t\tEndDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimSecurity\nTradeHistoryRAW derive({_col0_} = toString(byName('_col0_')),\n\t\t{_col1_} = toString(byName('_col1_')),\n\t\t{_col2_} = toString(byName('_col2_'))) ~> MapDrifted1\nMapDrifted1 select(mapColumn(\n\t\tTH_T_ID = {_col0_},\n\t\tTH_DTS = {_col1_},\n\t\tTH_ST_ID = {_col2_}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nTradeRAW derive({_col0_} = toString(byName('_col0_')),\n\t\t{_col1_} = toString(byName('_col1_')),\n\t\t{_col2_} = toString(byName('_col2_')),\n\t\t{_col3_} = toString(byName('_col3_')),\n\t\t{_col4_} = toString(byName('_col4_')),\n\t\t{_col5_} = toString(byName('_col5_')),\n\t\t{_col6_} = toString(byName('_col6_')),\n\t\t{_col7_} = toString(byName('_col7_')),\n\t\t{_col8_} = toString(byName('_col8_')),\n\t\t{_col9_} = toString(byName('_col9_')),\n\t\t{_col10_} = toString(byName('_col10_')),\n\t\t{_col11_} = toString(byName('_col11_')),\n\t\t{_col12_} = toString(byName('_col12_')),\n\t\t{_col13_} = toString(byName('_col13_'))) ~> MapDrifted2\nMapDrifted2 select(mapColumn(\n\t\tTradeID = {_col0_},\n\t\tT_DTS = {_col1_},\n\t\tT_ST_ID = {_col2_},\n\t\tT_TT_ID = {_col3_},\n\t\tCashFlag = {_col4_},\n\t\tT_S_SYMB = {_col5_},\n\t\tQuantity = {_col6_},\n\t\tBidPrice = {_col7_},\n\t\tT_CA_ID = {_col8_},\n\t\tExecutedBy = {_col9_},\n\t\tTradePrice = {_col10_},\n\t\tFee = {_col11_},\n\t\tCommision = {_col12_},\n\t\tTax = {_col13_}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSelect2, Statustype join(T_ST_ID == ST_ID,\n\tjoinType:'left',\n\tbroadcast: 'none')~> StatusTypeJoin\nSelect5, TradeType join(T_TT_ID == TT_ID,\n\tjoinType:'left',\n\tbroadcast: 'none')~> TradeTypeJoin\nSelect3, Select1 join(TradeID == TH_T_ID,\n\tjoinType:'left',\n\tbroadcast: 'none')~> TradeHistoryOuterJoin\nTradeTypeJoin select(mapColumn(\n\t\tTradeID,\n\t\tT_TT_ID,\n\t\tCashFlag,\n\t\tT_S_SYMB,\n\t\tQuantity,\n\t\tBidPrice,\n\t\tT_CA_ID,\n\t\tExecutedBy,\n\t\tTradePrice,\n\t\tFee,\n\t\tCommision,\n\t\tTax,\n\t\tStatus,\n\t\tType = TT_NAME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select3\nTradeHistoryOuterJoin derive(SK_CreateDateID = iif((TH_ST_ID=='SBMT'&&(T_TT_ID=='TMB'||T_TT_ID=='TMB'))||TH_ST_ID=='PNDG',TH_DTS, ''),\n\t\tSK_CreateTimeID = iif((TH_ST_ID=='SBMT'&&(T_TT_ID=='TMB'||T_TT_ID=='TMB'))||TH_ST_ID=='PNDG',TH_DTS, ''),\n\t\tSK_CloseDateID = iif(TH_ST_ID=='CMPT'||TH_ST_ID=='CNCL',TH_DTS,''),\n\t\tSK_CloseTimeID = iif(TH_ST_ID=='CMPT'||TH_ST_ID=='CNCL',TH_DTS,'')) ~> SKDateIDsCols\nSKDateIDsCols derive(SK_CreateDateID = toDate(substring(SK_CreateDateID,1,10), 'yyyy-MM-dd'),\n\t\tSK_CreateTimeID = toTimestamp(substring(SK_CreateTimeID,12,19), 'HH:mm:ss'),\n\t\tSK_CloseDateID = toDate(substring(SK_CloseDateID,1,10), 'yyyy-MM-dd'),\n\t\tSK_CloseTimeID = toTimestamp(substring(SK_CloseTimeID,12,19), 'HH:mm:ss'),\n\t\tBatchID = 00001) ~> SKDateIDsCols2\nStatusTypeJoin select(mapColumn(\n\t\tTradeID,\n\t\tT_DTS,\n\t\tT_TT_ID,\n\t\tCashFlag,\n\t\tT_S_SYMB,\n\t\tQuantity,\n\t\tBidPrice,\n\t\tT_CA_ID,\n\t\tExecutedBy,\n\t\tTradePrice,\n\t\tFee,\n\t\tCommision,\n\t\tTax,\n\t\tStatus = ST_NAME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select5\nDimSecurity select(mapColumn(\n\t\tSK_SecurityID,\n\t\tSymbol,\n\t\tSK_CompanyID,\n\t\tIsCurrent,\n\t\tEffectiveDate,\n\t\tEndDate\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCols\nSKDateIDsCols2, SelectCols join(T_S_SYMB==Symbol && EffectiveDate<=toDate(TH_DTS) && toDate(TH_DTS)<EndDate,\n\tjoinType:'cross',\n\tbroadcast: 'none')~> JoinDimSecurity\nJoinDimSecurity select(mapColumn(\n\t\tTradeID,\n\t\tCashFlag,\n\t\tSymbol = T_S_SYMB,\n\t\tQuantity,\n\t\tBidPrice,\n\t\tT_CA_ID,\n\t\tExecutedBy,\n\t\tTradePrice,\n\t\tFee,\n\t\tCommision,\n\t\tTax,\n\t\tStatus,\n\t\tType,\n\t\tTH_DTS,\n\t\tSK_CreateDateID,\n\t\tSK_CreateTimeID,\n\t\tSK_CloseDateID,\n\t\tSK_CloseTimeID,\n\t\tBatchID,\n\t\tSK_SecurityID,\n\t\tSK_CompanyID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select6\nSelect6 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DimTrade2'],\n\tpartitionBy('hash', 1)) ~> sink1"
+		}
+	}
+}

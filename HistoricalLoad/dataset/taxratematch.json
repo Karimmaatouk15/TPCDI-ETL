@@ -1,0 +1,32 @@
+{
+	"name": "taxratematch",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TX_ID",
+				"type": "char"
+			},
+			{
+				"name": "TX_NAME",
+				"type": "char"
+			},
+			{
+				"name": "TX_RATE",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 5
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TaxRate"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

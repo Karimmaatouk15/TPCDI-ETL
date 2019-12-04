@@ -1,0 +1,215 @@
+{
+	"name": "CopyPipeline_g0w",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_g0w",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "security//securityFinal.csv"
+					},
+					{
+						"name": "Destination",
+						"value": "dbo.DimSecurity"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "SK_SecurityID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SK_SecurityID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "symbol",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Symbol",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Issue",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Issue",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Status",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Name",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ExchangeID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ExchangeID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SK_CompanyID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SK_CompanyID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SharesOutstanding",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SharesOutstanding",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "FirstTrade",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FirstTrade",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "FirstTradeOnExchange",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FirstTradeOnExchange",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "Dividend",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Dividend",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "IsCurrent",
+									"type": "String"
+								},
+								"sink": {
+									"name": "IsCurrent",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "BatchID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "BatchID",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "EffectiveDate",
+									"type": "String"
+								},
+								"sink": {
+									"name": "EffectiveDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "EndDate",
+									"type": "String"
+								},
+								"sink": {
+									"name": "EndDate",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_g0w",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_g0w",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

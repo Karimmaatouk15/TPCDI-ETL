@@ -1,0 +1,42 @@
+{
+	"name": "DestinationDataset_r3c",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TT_ID",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "TT_NAME",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "TT_IS_SELL",
+				"type": "numeric",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "TT_IS_MRKT",
+				"type": "numeric",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TradeType"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

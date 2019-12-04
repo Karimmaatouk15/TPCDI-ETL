@@ -1,0 +1,74 @@
+{
+	"name": "AzureSqlTable7",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_BrokerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BrokerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ManagerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FirstName",
+				"type": "char"
+			},
+			{
+				"name": "LastName",
+				"type": "char"
+			},
+			{
+				"name": "MiddleInitial",
+				"type": "char"
+			},
+			{
+				"name": "Branch",
+				"type": "char"
+			},
+			{
+				"name": "Office",
+				"type": "char"
+			},
+			{
+				"name": "Phone",
+				"type": "char"
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "BatchID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "date"
+			},
+			{
+				"name": "EndDate",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimBroker"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
