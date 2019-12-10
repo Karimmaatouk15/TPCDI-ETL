@@ -1,0 +1,215 @@
+{
+	"name": "DelimitedText15",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "TPCDI:Actions",
+				"type": "String"
+			},
+			{
+				"name": "xmlns:TPCDI",
+				"type": "String"
+			},
+			{
+				"name": "TPCDI:Action",
+				"type": "String"
+			},
+			{
+				"name": "ActionType",
+				"type": "String"
+			},
+			{
+				"name": "ActionTS",
+				"type": "String"
+			},
+			{
+				"name": "Customer",
+				"type": "String"
+			},
+			{
+				"name": "C_ID",
+				"type": "String"
+			},
+			{
+				"name": "C_TAX_ID",
+				"type": "String"
+			},
+			{
+				"name": "C_GNDR",
+				"type": "String"
+			},
+			{
+				"name": "C_TIER",
+				"type": "String"
+			},
+			{
+				"name": "C_DOB",
+				"type": "String"
+			},
+			{
+				"name": "Name",
+				"type": "String"
+			},
+			{
+				"name": "C_L_NAME",
+				"type": "String"
+			},
+			{
+				"name": "C_F_NAME",
+				"type": "String"
+			},
+			{
+				"name": "C_M_NAME",
+				"type": "String"
+			},
+			{
+				"name": "Address",
+				"type": "String"
+			},
+			{
+				"name": "C_ADLINE1",
+				"type": "String"
+			},
+			{
+				"name": "C_ADLINE2",
+				"type": "String"
+			},
+			{
+				"name": "C_ZIPCODE",
+				"type": "String"
+			},
+			{
+				"name": "C_CITY",
+				"type": "String"
+			},
+			{
+				"name": "C_STATE_PROV",
+				"type": "String"
+			},
+			{
+				"name": "C_CTRY",
+				"type": "String"
+			},
+			{
+				"name": "ContactInfo",
+				"type": "String"
+			},
+			{
+				"name": "C_PRIM_EMAIL",
+				"type": "String"
+			},
+			{
+				"name": "C_ALT_EMAIL",
+				"type": "String"
+			},
+			{
+				"name": "C_PHONE_1",
+				"type": "String"
+			},
+			{
+				"name": "C_CTRY_CODE26",
+				"type": "String"
+			},
+			{
+				"name": "C_AREA_CODE27",
+				"type": "String"
+			},
+			{
+				"name": "C_LOCAL28",
+				"type": "String"
+			},
+			{
+				"name": "C_EXT29",
+				"type": "String"
+			},
+			{
+				"name": "C_PHONE_2",
+				"type": "String"
+			},
+			{
+				"name": "C_CTRY_CODE31",
+				"type": "String"
+			},
+			{
+				"name": "C_AREA_CODE32",
+				"type": "String"
+			},
+			{
+				"name": "C_LOCAL33",
+				"type": "String"
+			},
+			{
+				"name": "C_EXT34",
+				"type": "String"
+			},
+			{
+				"name": "C_PHONE_3",
+				"type": "String"
+			},
+			{
+				"name": "C_CTRY_CODE36",
+				"type": "String"
+			},
+			{
+				"name": "C_AREA_CODE37",
+				"type": "String"
+			},
+			{
+				"name": "C_LOCAL38",
+				"type": "String"
+			},
+			{
+				"name": "C_EXT39",
+				"type": "String"
+			},
+			{
+				"name": "TaxInfo",
+				"type": "String"
+			},
+			{
+				"name": "C_LCL_TX_ID",
+				"type": "String"
+			},
+			{
+				"name": "C_NAT_TX_ID",
+				"type": "String"
+			},
+			{
+				"name": "Account",
+				"type": "String"
+			},
+			{
+				"name": "CA_ID",
+				"type": "String"
+			},
+			{
+				"name": "CA_TAX_ST",
+				"type": "String"
+			},
+			{
+				"name": "CA_B_ID",
+				"type": "String"
+			},
+			{
+				"name": "CA_NAME",
+				"type": "String"
+			}
+		]
+	}
+}
