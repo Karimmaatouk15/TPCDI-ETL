@@ -1,0 +1,395 @@
+{
+	"name": "CopyPipeline_ito",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_ito",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "etl/HistoricalLoads/dimCustomer.csv"
+					},
+					{
+						"name": "Destination",
+						"value": "dbo.DimCustomer"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "SK_CustomerID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SK_CustomerID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CustomerID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CustomerID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "TaxID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TaxID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Status",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "LastName",
+									"type": "String"
+								},
+								"sink": {
+									"name": "LastName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FirstName",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FirstName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MiddleInitial",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MiddleInitial",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Gender",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Gender",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Tier",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Tier",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DOB",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DOB",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "AddressLine1",
+									"type": "String"
+								},
+								"sink": {
+									"name": "AddressLine1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "AddressLine2",
+									"type": "String"
+								},
+								"sink": {
+									"name": "AddressLine2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PostalCode",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PostalCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "City",
+									"type": "String"
+								},
+								"sink": {
+									"name": "City",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "StateProv",
+									"type": "String"
+								},
+								"sink": {
+									"name": "StateProv",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Country",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Country",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Phone1",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Phone1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Phone2",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Phone2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Phone3",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Phone3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Email1",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Email1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Email2",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Email2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NationalTaxRateDesc",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NationalTaxRateDesc",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NationalTaxRate",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NationalTaxRate",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "LocalTaxRateDesc",
+									"type": "String"
+								},
+								"sink": {
+									"name": "LocalTaxRateDesc",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "LocalTaxRate",
+									"type": "String"
+								},
+								"sink": {
+									"name": "LocalTaxRate",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "AgencyID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "AgencyID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CreditRating",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CreditRating",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "NetWorth",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NetWorth",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "MarketingNameplate",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MarketingNameplate",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "IsCurrent",
+									"type": "String"
+								},
+								"sink": {
+									"name": "IsCurrent",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "BatchID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "BatchID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "EffectiveDate",
+									"type": "String"
+								},
+								"sink": {
+									"name": "EffectiveDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "EndDate",
+									"type": "String"
+								},
+								"sink": {
+									"name": "EndDate",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_ito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_ito",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

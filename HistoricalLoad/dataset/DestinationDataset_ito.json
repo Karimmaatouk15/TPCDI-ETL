@@ -1,0 +1,216 @@
+{
+	"name": "DestinationDataset_ito",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_CustomerID",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CustomerID",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "TaxID",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Status",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "LastName",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "FirstName",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "MiddleInitial",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Gender",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Tier",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DOB",
+				"type": "date",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "AddressLine1",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "AddressLine2",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "PostalCode",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "City",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "StateProv",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Country",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Phone1",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Phone2",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Phone3",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Email1",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "Email2",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "NationalTaxRateDesc",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "NationalTaxRate",
+				"type": "numeric",
+				"precision": 6,
+				"scale": 5
+			},
+			{
+				"name": "LocalTaxRateDesc",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "LocalTaxRate",
+				"type": "numeric",
+				"precision": 6,
+				"scale": 5
+			},
+			{
+				"name": "AgencyID",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "CreditRating",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "NetWorth",
+				"type": "numeric",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "MarketingNameplate",
+				"type": "varchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "BatchID",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "date",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "EndDate",
+				"type": "date",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCustomer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
