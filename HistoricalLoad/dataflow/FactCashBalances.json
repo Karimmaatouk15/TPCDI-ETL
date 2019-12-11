@@ -6,10 +6,24 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "CashTransaction",
+						"referenceName": "CashTransaction1",
 						"type": "DatasetReference"
 					},
 					"name": "CashTransaction"
+				},
+				{
+					"dataset": {
+						"referenceName": "Account",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dimdate",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
 				}
 			],
 			"sinks": [
@@ -28,9 +42,42 @@
 				},
 				{
 					"name": "Select1"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Sort1"
+				},
+				{
+					"name": "Sort2"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Select3"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Select4"
+				},
+				{
+					"name": "Select5"
+				},
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "DerivedColumn2"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true) ~> CashTransaction\nCashTransaction derive(CT_DTS = toString(byName('_col0_')),\n\t\tCT_AMT = toString(byName('_col1_')),\n\t\tCT_NAME = toString(byName('_col2_'))) ~> MapDrifted1\nMapDrifted1 select(mapColumn(\n\t\tCT_CA_ID = Column_1,\n\t\tCT_DTS,\n\t\tCT_AMT,\n\t\tCT_NAME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> CashFactBalances"
+			"script": "\n\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true) ~> CashTransaction\nsource(output(\n\t\tSK_AccountID as integer,\n\t\tAccountID as integer,\n\t\tSK_BrokerID as integer,\n\t\tSK_CustomerID as integer,\n\t\tStatus as string,\n\t\tAccountDesc as string,\n\t\tTaxStatus as integer,\n\t\tIsCurrent as boolean,\n\t\tBatchID as integer,\n\t\tEffectiveDate as date,\n\t\tEndDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource(output(\n\t\tSK_DateID as integer,\n\t\tDateValue as date,\n\t\tDateDesc as string,\n\t\tCalendarYearID as decimal(4,0),\n\t\tCalendarYearDesc as string,\n\t\tCalendarQtrID as decimal(5,0),\n\t\tCalendarQtrDesc as string,\n\t\tCalendarMonthID as decimal(6,0),\n\t\tCalendarMonthDesc as string,\n\t\tCalendarWeekID as decimal(6,0),\n\t\tCalendarWeekDesc as string,\n\t\tDayOfWeeknumeric as decimal(1,0),\n\t\tDayOfWeekDesc as string,\n\t\tFiscalYearID as decimal(4,0),\n\t\tFiscalYearDesc as string,\n\t\tFiscalQtrID as decimal(5,0),\n\t\tFiscalQtrDesc as string,\n\t\tHolidayFlag as boolean\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source2\nCashTransaction derive(CT_DTS = toString(byName('_col0_')),\n\t\tCT_AMT = toString(byName('_col1_')),\n\t\tCT_NAME = toString(byName('_col2_')),\n\t\tCT_CA_ID = toInteger(Column_1)) ~> MapDrifted1\nDerivedColumn1 select(mapColumn(\n\t\tCT_CA_ID,\n\t\tCT_DTS,\n\t\tCT_AMT,\n\t\tCT_NAME,\n\t\tDTS_Date\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nsource1 select(mapColumn(\n\t\tSK_AccountID,\n\t\tAccountID,\n\t\tSK_CustomerID,\n\t\tIsCurrent,\n\t\tEffectiveDate,\n\t\tEndDate\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSelect1, Select2 join(CT_CA_ID == AccountID && DTS_Date >= EffectiveDate &&  DTS_Date <EndDate,\n\tjoinType:'cross',\n\tbroadcast: 'none')~> Join1\nSelect2 sort(asc(ERROR_FUNCTION(''), true)) ~> Sort1\nSelect5 sort(asc(CT_CA_ID, true)) ~> Sort2\nMapDrifted1 derive(DTS_Date = toDate(substring(CT_DTS,1,10), 'yyyy-MM-dd')) ~> DerivedColumn1\nsource2 select(mapColumn(\n\t\tSK_DateID,\n\t\tDateValue\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select3\nSelect4, Select3 join(DTS_Date==DateValue,\n\tjoinType:'cross',\n\tbroadcast: 'none')~> Join2\nJoin1 select(mapColumn(\n\t\tCT_CA_ID,\n\t\tCT_DTS,\n\t\tCT_AMT,\n\t\tCT_NAME,\n\t\tDTS_Date,\n\t\tSK_AccountID,\n\t\tSK_CustomerID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select4\nJoin2 select(mapColumn(\n\t\tCT_CA_ID,\n\t\tCT_DTS,\n\t\tCT_AMT,\n\t\tCT_NAME,\n\t\tDTS_Date,\n\t\tSK_AccountID,\n\t\tSK_CustomerID,\n\t\tSK_DateID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select5\nSort2 aggregate(groupBy(SK_AccountID,\n\t\tSK_CustomerID,\n\t\tSK_DateID),\n\tCash = sum(toFloat(CT_AMT))) ~> Aggregate1\nAggregate1 derive(BatchID = 1) ~> DerivedColumn2\nDerivedColumn2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> CashFactBalances"
 		}
 	}
 }
