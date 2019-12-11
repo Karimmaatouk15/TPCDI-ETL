@@ -1,0 +1,65 @@
+{
+	"name": "AzureSqlTable13",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_TimeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TimeValue",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "HourID",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "HourDesc",
+				"type": "char"
+			},
+			{
+				"name": "MinuteID",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "MinuteDesc",
+				"type": "char"
+			},
+			{
+				"name": "SecondID",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "SecondDesc",
+				"type": "char"
+			},
+			{
+				"name": "MarketHoursFlag",
+				"type": "bit"
+			},
+			{
+				"name": "OfficeHoursFlag",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimTime"
+		}
+	}
+}

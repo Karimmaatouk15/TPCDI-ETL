@@ -1,0 +1,67 @@
+{
+	"name": "AzureSqlTable12",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_AccountID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AccountID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_BrokerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Status",
+				"type": "char"
+			},
+			{
+				"name": "AccountDesc",
+				"type": "varchar"
+			},
+			{
+				"name": "TaxStatus",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "BatchID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "date"
+			},
+			{
+				"name": "EndDate",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimAccount"
+		}
+	}
+}
