@@ -1,0 +1,44 @@
+{
+	"name": "FactCashBalancesTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_AccountID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_DateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Cash",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "BatchID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FactCashBalances"
+		}
+	}
+}
