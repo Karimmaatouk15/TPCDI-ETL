@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText10",
+	"name": "TradeHistoryRAW",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
