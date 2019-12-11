@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "TradeHistory.txt",
-				"container": "rawdata"
+				"container": "raw"
 			},
 			"columnDelimiter": "|",
 			"escapeChar": "\\",
