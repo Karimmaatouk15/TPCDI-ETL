@@ -9,12 +9,20 @@
 						"referenceName": "audit",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "Audit"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AuditTABLE",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [],
-			"script": "\n\nsource(output(\n\t\tDataSet as string,\n\t\t{ BatchID } as string,\n\t\t{Date } as string,\n\t\t{ Attribute } as string,\n\t\t{ Value} as string,\n\t\t{ DValue} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true) ~> source1"
+			"script": "\n\nsource(output(\n\t\tDataSet as string,\n\t\t{ BatchID } as string,\n\t\t{Date } as string,\n\t\t{ Attribute } as string,\n\t\t{ Value} as string,\n\t\t{ DValue} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true) ~> Audit\nAudit sink(input(\n\t\tDataSet as string,\n\t\tBatchID as decimal(5,0),\n\t\tAT_Date as date,\n\t\tAT_Attribute as string,\n\t\tAT_Value as decimal(15,0),\n\t\tDValue as decimal(15,5)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table') ~> sink1"
 		}
 	}
 }

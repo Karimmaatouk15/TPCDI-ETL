@@ -1,0 +1,47 @@
+{
+	"name": "AuditTABLE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DataSet",
+				"type": "char"
+			},
+			{
+				"name": "BatchID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "AT_Date",
+				"type": "date"
+			},
+			{
+				"name": "AT_Attribute",
+				"type": "char"
+			},
+			{
+				"name": "AT_Value",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 0
+			},
+			{
+				"name": "DValue",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 5
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "AuditTable"
+		}
+	}
+}
