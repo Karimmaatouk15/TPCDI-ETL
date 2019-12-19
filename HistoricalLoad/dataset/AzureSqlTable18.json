@@ -9,96 +9,90 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "SK_DateID",
+				"name": "SK_CompanyID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "DateValue",
-				"type": "date"
-			},
-			{
-				"name": "DateDesc",
-				"type": "char"
-			},
-			{
-				"name": "CalendarYearID",
+				"name": "FI_YEAR",
 				"type": "decimal",
 				"precision": 4,
 				"scale": 0
 			},
 			{
-				"name": "CalendarYearDesc",
-				"type": "char"
-			},
-			{
-				"name": "CalendarQtrID",
-				"type": "decimal",
-				"precision": 5,
-				"scale": 0
-			},
-			{
-				"name": "CalendarQtrDesc",
-				"type": "char"
-			},
-			{
-				"name": "CalendarMonthID",
-				"type": "decimal",
-				"precision": 6,
-				"scale": 0
-			},
-			{
-				"name": "CalendarMonthDesc",
-				"type": "char"
-			},
-			{
-				"name": "CalendarWeekID",
-				"type": "decimal",
-				"precision": 6,
-				"scale": 0
-			},
-			{
-				"name": "CalendarWeekDesc",
-				"type": "char"
-			},
-			{
-				"name": "DayOfWeeknumeric",
+				"name": "FI_QTR",
 				"type": "decimal",
 				"precision": 1,
 				"scale": 0
 			},
 			{
-				"name": "DayOfWeekDesc",
-				"type": "char"
+				"name": "FI_QTR_START_DATE",
+				"type": "date"
 			},
 			{
-				"name": "FiscalYearID",
+				"name": "FI_REVENUE",
 				"type": "decimal",
-				"precision": 4,
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "FI_NET_EARN",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "FI_BASIC_EPS",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FI_DILUT_EPS",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FI_MARGIN",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FI_INVENTORY",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "FI_ASSETS",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "FI_LIABILITY",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "FI_OUT_BASIC",
+				"type": "decimal",
+				"precision": 12,
 				"scale": 0
 			},
 			{
-				"name": "FiscalYearDesc",
-				"type": "char"
-			},
-			{
-				"name": "FiscalQtrID",
+				"name": "FI_OUT_DILUT",
 				"type": "decimal",
-				"precision": 5,
+				"precision": 12,
 				"scale": 0
-			},
-			{
-				"name": "FiscalQtrDesc",
-				"type": "char"
-			},
-			{
-				"name": "HolidayFlag",
-				"type": "bit"
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "DimDate"
+			"table": "Financial"
 		}
 	}
 }
