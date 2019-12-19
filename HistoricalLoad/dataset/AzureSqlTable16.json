@@ -9,152 +9,117 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "SK_CustomerID",
+				"name": "TradeID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "CustomerID",
+				"name": "SK_BrokerID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "TaxID",
-				"type": "char"
+				"name": "SK_CreateDateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_CreateTimeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_CloseDateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_CloseTimeID",
+				"type": "int",
+				"precision": 10
 			},
 			{
 				"name": "Status",
 				"type": "char"
 			},
 			{
-				"name": "LastName",
+				"name": "DT_Type",
 				"type": "char"
 			},
 			{
-				"name": "FirstName",
-				"type": "char"
-			},
-			{
-				"name": "MiddleInitial",
-				"type": "char"
-			},
-			{
-				"name": "Gender",
-				"type": "char"
-			},
-			{
-				"name": "Tier",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "DOB",
-				"type": "date"
-			},
-			{
-				"name": "AddressLine1",
-				"type": "varchar"
-			},
-			{
-				"name": "AddressLine2",
-				"type": "varchar"
-			},
-			{
-				"name": "PostalCode",
-				"type": "char"
-			},
-			{
-				"name": "City",
-				"type": "char"
-			},
-			{
-				"name": "StateProv",
-				"type": "char"
-			},
-			{
-				"name": "Country",
-				"type": "char"
-			},
-			{
-				"name": "Phone1",
-				"type": "char"
-			},
-			{
-				"name": "Phone2",
-				"type": "char"
-			},
-			{
-				"name": "Phone3",
-				"type": "char"
-			},
-			{
-				"name": "Email1",
-				"type": "char"
-			},
-			{
-				"name": "Email2",
-				"type": "char"
-			},
-			{
-				"name": "NationalTaxRateDesc",
-				"type": "varchar"
-			},
-			{
-				"name": "NationalTaxRate",
-				"type": "decimal",
-				"precision": 6,
-				"scale": 5
-			},
-			{
-				"name": "LocalTaxRateDesc",
-				"type": "varchar"
-			},
-			{
-				"name": "LocalTaxRate",
-				"type": "decimal",
-				"precision": 6,
-				"scale": 5
-			},
-			{
-				"name": "AgencyID",
-				"type": "char"
-			},
-			{
-				"name": "CreditRating",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "NetWorth",
-				"type": "decimal",
-				"precision": 10,
-				"scale": 0
-			},
-			{
-				"name": "MarketingNameplate",
-				"type": "varchar"
-			},
-			{
-				"name": "IsCurrent",
+				"name": "CashFlag",
 				"type": "bit"
 			},
 			{
-				"name": "BatchID",
+				"name": "SK_SecurityID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "EffectiveDate",
-				"type": "date"
+				"name": "SK_CompanyID",
+				"type": "int",
+				"precision": 10
 			},
 			{
-				"name": "EndDate",
-				"type": "date"
+				"name": "Quantity",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "BidPrice",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "SK_CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_AccountID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ExecutedBy",
+				"type": "char"
+			},
+			{
+				"name": "TradePrice",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "Fee",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Commission",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Tax",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "BatchID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "DimCustomer"
+			"table": "DimTrade"
 		}
 	}
 }
