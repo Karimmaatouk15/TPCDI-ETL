@@ -9,28 +9,28 @@
 						"referenceName": "DelimitedText18",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "originaltxt"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable16",
+						"referenceName": "AzureSqlTable19",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "impDimSecurity"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable17",
+						"referenceName": "AzureSqlTable20",
 						"type": "DatasetReference"
 					},
-					"name": "source3"
+					"name": "importDimDate"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable18",
+						"referenceName": "AzureSqlTable21",
 						"type": "DatasetReference"
 					},
-					"name": "source4"
+					"name": "impFinancial"
 				}
 			],
 			"sinks": [
@@ -53,13 +53,19 @@
 					"name": "Join2"
 				},
 				{
+					"name": "DerivedColumn7"
+				},
+				{
+					"name": "sumnetearn"
+				},
+				{
 					"name": "Join3"
 				},
 				{
-					"name": "DerivedColumn7"
+					"name": "Select1"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> source1\nsource(output(\n\t\tSK_SecurityID as integer,\n\t\tSymbol as string,\n\t\tIssue as string,\n\t\tStatus as string,\n\t\tName as string,\n\t\tExchangeID as string,\n\t\tSK_CompanyID as integer,\n\t\tSharesOutstanding as integer,\n\t\tFirstTrade as date,\n\t\tFirstTradeOnExchange as date,\n\t\tDividend as integer,\n\t\tIsCurrent as boolean,\n\t\tBatchID as decimal(5,0),\n\t\tEffectiveDate as date,\n\t\tEndDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source2\nsource(output(\n\t\tSK_DateID as integer,\n\t\tDateValue as date,\n\t\tDateDesc as string,\n\t\tCalendarYearID as decimal(4,0),\n\t\tCalendarYearDesc as string,\n\t\tCalendarQtrID as decimal(5,0),\n\t\tCalendarQtrDesc as string,\n\t\tCalendarMonthID as decimal(6,0),\n\t\tCalendarMonthDesc as string,\n\t\tCalendarWeekID as decimal(6,0),\n\t\tCalendarWeekDesc as string,\n\t\tDayOfWeeknumeric as decimal(1,0),\n\t\tDayOfWeekDesc as string,\n\t\tFiscalYearID as decimal(4,0),\n\t\tFiscalYearDesc as string,\n\t\tFiscalQtrID as decimal(5,0),\n\t\tFiscalQtrDesc as string,\n\t\tHolidayFlag as boolean\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source3\nsource(output(\n\t\tSK_CompanyID as integer,\n\t\tFI_YEAR as decimal(4,0),\n\t\tFI_QTR as decimal(1,0),\n\t\tFI_QTR_START_DATE as date,\n\t\tFI_REVENUE as decimal(15,2),\n\t\tFI_NET_EARN as decimal(15,2),\n\t\tFI_BASIC_EPS as decimal(10,2),\n\t\tFI_DILUT_EPS as decimal(10,2),\n\t\tFI_MARGIN as decimal(10,2),\n\t\tFI_INVENTORY as decimal(15,2),\n\t\tFI_ASSETS as decimal(15,2),\n\t\tFI_LIABILITY as decimal(15,2),\n\t\tFI_OUT_BASIC as decimal(12,0),\n\t\tFI_OUT_DILUT as decimal(12,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source4\nsource1 derive(DM_Date = toDate(split(Column_1,'|')[1],'yyyy-mm-dd'),\n\t\tDM_SYMB = split(Column_1,'|')[2],\n\t\tClosePrice = split(Column_1,'|')[3],\n\t\tDayHigh = split(Column_1,'|')[4],\n\t\tDayLow = split(Column_1,'|')[5],\n\t\t{Volume } = split(Column_1,'|')[6]) ~> DerivedColumn1\nDerivedColumn1, source2 join(DM_SYMB == Symbol && DM_Date >= EffectiveDate && DM_Date < EndDate,\n\tjoinType:'cross',\n\tbroadcast: 'none')~> Join1\nDerivedColumn7, source3 join(DM_Date == DateValue,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join2\nJoin2, source4 join(source2@SK_CompanyID == source4@SK_CompanyID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join3\nJoin1 derive(Yied = divide(Dividend,toInteger(ClosePrice))*100) ~> DerivedColumn7\nJoin3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
+			"script": "\n\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> originaltxt\nsource(output(\n\t\tSK_SecurityID as integer,\n\t\tSymbol as string,\n\t\tIssue as string,\n\t\tStatus as string,\n\t\tName as string,\n\t\tExchangeID as string,\n\t\tSK_CompanyID as integer,\n\t\tSharesOutstanding as integer,\n\t\tFirstTrade as date,\n\t\tFirstTradeOnExchange as date,\n\t\tDividend as integer,\n\t\tIsCurrent as boolean,\n\t\tBatchID as decimal(5,0),\n\t\tEffectiveDate as date,\n\t\tEndDate as date\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> impDimSecurity\nsource(output(\n\t\tSK_DateID as integer,\n\t\tDateValue as date,\n\t\tDateDesc as string,\n\t\tCalendarYearID as decimal(4,0),\n\t\tCalendarYearDesc as string,\n\t\tCalendarQtrID as decimal(5,0),\n\t\tCalendarQtrDesc as string,\n\t\tCalendarMonthID as decimal(6,0),\n\t\tCalendarMonthDesc as string,\n\t\tCalendarWeekID as decimal(6,0),\n\t\tCalendarWeekDesc as string,\n\t\tDayOfWeeknumeric as decimal(1,0),\n\t\tDayOfWeekDesc as string,\n\t\tFiscalYearID as decimal(4,0),\n\t\tFiscalYearDesc as string,\n\t\tFiscalQtrID as decimal(5,0),\n\t\tFiscalQtrDesc as string,\n\t\tHolidayFlag as boolean\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> importDimDate\nsource(output(\n\t\tSK_CompanyID as integer,\n\t\tFI_YEAR as decimal(4,0),\n\t\tFI_QTR as decimal(1,0),\n\t\tFI_QTR_START_DATE as date,\n\t\tFI_REVENUE as decimal(15,2),\n\t\tFI_NET_EARN as decimal(15,2),\n\t\tFI_BASIC_EPS as decimal(10,2),\n\t\tFI_DILUT_EPS as decimal(10,2),\n\t\tFI_MARGIN as decimal(10,2),\n\t\tFI_INVENTORY as decimal(15,2),\n\t\tFI_ASSETS as decimal(15,2),\n\t\tFI_LIABILITY as decimal(15,2),\n\t\tFI_OUT_BASIC as decimal(12,0),\n\t\tFI_OUT_DILUT as decimal(12,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> impFinancial\noriginaltxt derive(DM_Date = toDate(split(Column_1,'|')[1],'yyyy-mm-dd'),\n\t\tDM_SYMB = split(Column_1,'|')[2],\n\t\tClosePrice = split(Column_1,'|')[3],\n\t\tDayHigh = split(Column_1,'|')[4],\n\t\tDayLow = split(Column_1,'|')[5],\n\t\t{Volume } = split(Column_1,'|')[6]) ~> DerivedColumn1\nDerivedColumn1, impDimSecurity join(DM_SYMB == Symbol,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join1\nDerivedColumn7, importDimDate join(DM_Date == DateValue,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join2\nJoin1 derive(Yied = divide(Dividend,toInteger(ClosePrice))*100) ~> DerivedColumn7\nJoin3 aggregate(groupBy(FI_YEAR,\n\t\tSK_SecurityID,\n\t\timpDimSecurity@SK_CompanyID,\n\t\tSK_DateID),\n\tsumofearn = sum(FI_NET_EARN),\n\t\tvolumn = sum(toInteger(Volume))) ~> sumnetearn\nJoin2, impFinancial join(impDimSecurity@SK_CompanyID == impFinancial@SK_CompanyID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join3\nJoin3 select(mapColumn(\n\t\tClosePrice,\n\t\tDayHigh,\n\t\tDayLow,\n\t\t{Volume },\n\t\tSK_SecurityID,\n\t\tSK_CompanyID = impDimSecurity@SK_CompanyID,\n\t\tBatchID,\n\t\tYied,\n\t\tSK_DateID,\n\t\tFI_YEAR,\n\t\tFI_NET_EARN\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nsumnetearn sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
 		}
 	}
 }

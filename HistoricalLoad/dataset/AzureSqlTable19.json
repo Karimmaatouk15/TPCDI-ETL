@@ -9,17 +9,16 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "SK_CustomerID",
+				"name": "SK_SecurityID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "CustomerID",
-				"type": "int",
-				"precision": 10
+				"name": "Symbol",
+				"type": "char"
 			},
 			{
-				"name": "TaxID",
+				"name": "Issue",
 				"type": "char"
 			},
 			{
@@ -27,112 +26,35 @@
 				"type": "char"
 			},
 			{
-				"name": "LastName",
+				"name": "Name",
 				"type": "char"
 			},
 			{
-				"name": "FirstName",
+				"name": "ExchangeID",
 				"type": "char"
 			},
 			{
-				"name": "MiddleInitial",
-				"type": "char"
-			},
-			{
-				"name": "Gender",
-				"type": "char"
-			},
-			{
-				"name": "Tier",
+				"name": "SK_CompanyID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "DOB",
+				"name": "SharesOutstanding",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FirstTrade",
 				"type": "date"
 			},
 			{
-				"name": "AddressLine1",
-				"type": "varchar"
+				"name": "FirstTradeOnExchange",
+				"type": "date"
 			},
 			{
-				"name": "AddressLine2",
-				"type": "varchar"
-			},
-			{
-				"name": "PostalCode",
-				"type": "char"
-			},
-			{
-				"name": "City",
-				"type": "char"
-			},
-			{
-				"name": "StateProv",
-				"type": "char"
-			},
-			{
-				"name": "Country",
-				"type": "char"
-			},
-			{
-				"name": "Phone1",
-				"type": "char"
-			},
-			{
-				"name": "Phone2",
-				"type": "char"
-			},
-			{
-				"name": "Phone3",
-				"type": "char"
-			},
-			{
-				"name": "Email1",
-				"type": "char"
-			},
-			{
-				"name": "Email2",
-				"type": "char"
-			},
-			{
-				"name": "NationalTaxRateDesc",
-				"type": "varchar"
-			},
-			{
-				"name": "NationalTaxRate",
-				"type": "decimal",
-				"precision": 6,
-				"scale": 5
-			},
-			{
-				"name": "LocalTaxRateDesc",
-				"type": "varchar"
-			},
-			{
-				"name": "LocalTaxRate",
-				"type": "decimal",
-				"precision": 6,
-				"scale": 5
-			},
-			{
-				"name": "AgencyID",
-				"type": "char"
-			},
-			{
-				"name": "CreditRating",
+				"name": "Dividend",
 				"type": "int",
 				"precision": 10
-			},
-			{
-				"name": "NetWorth",
-				"type": "decimal",
-				"precision": 10,
-				"scale": 0
-			},
-			{
-				"name": "MarketingNameplate",
-				"type": "varchar"
 			},
 			{
 				"name": "IsCurrent",
@@ -140,8 +62,9 @@
 			},
 			{
 				"name": "BatchID",
-				"type": "int",
-				"precision": 10
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
 			},
 			{
 				"name": "EffectiveDate",
@@ -154,7 +77,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "DimCustomer"
+			"table": "DimSecurity"
 		}
 	}
 }
