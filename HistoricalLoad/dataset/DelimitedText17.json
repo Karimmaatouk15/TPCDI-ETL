@@ -1,0 +1,80 @@
+{
+	"name": "DelimitedText17",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "AccountFinal.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "AccountDesc",
+				"type": "String"
+			},
+			{
+				"name": "AccountID",
+				"type": "String"
+			},
+			{
+				"name": "ActionTS",
+				"type": "String"
+			},
+			{
+				"name": "ActionType",
+				"type": "String"
+			},
+			{
+				"name": "BatchID",
+				"type": "String"
+			},
+			{
+				"name": "CA_B_ID",
+				"type": "String"
+			},
+			{
+				"name": "C_ID",
+				"type": "String"
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "String"
+			},
+			{
+				"name": "EndDate",
+				"type": "String"
+			},
+			{
+				"name": "SK_CustomerID",
+				"type": "String"
+			},
+			{
+				"name": "Status",
+				"type": "String"
+			},
+			{
+				"name": "TaxStatus",
+				"type": "String"
+			},
+			{
+				"name": "fakesk",
+				"type": "String"
+			},
+			{
+				"name": "isCurrent",
+				"type": "String"
+			}
+		]
+	}
+}
