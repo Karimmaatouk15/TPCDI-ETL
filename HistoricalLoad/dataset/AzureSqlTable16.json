@@ -1,0 +1,83 @@
+{
+	"name": "AzureSqlTable16",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_SecurityID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Symbol",
+				"type": "char"
+			},
+			{
+				"name": "Issue",
+				"type": "char"
+			},
+			{
+				"name": "Status",
+				"type": "char"
+			},
+			{
+				"name": "Name",
+				"type": "char"
+			},
+			{
+				"name": "ExchangeID",
+				"type": "char"
+			},
+			{
+				"name": "SK_CompanyID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SharesOutstanding",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FirstTrade",
+				"type": "date"
+			},
+			{
+				"name": "FirstTradeOnExchange",
+				"type": "date"
+			},
+			{
+				"name": "Dividend",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "BatchID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "date"
+			},
+			{
+				"name": "EndDate",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimSecurity"
+		}
+	}
+}
