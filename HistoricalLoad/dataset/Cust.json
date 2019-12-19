@@ -1,0 +1,160 @@
+{
+	"name": "Cust",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TaxID",
+				"type": "char"
+			},
+			{
+				"name": "Status",
+				"type": "char"
+			},
+			{
+				"name": "LastName",
+				"type": "char"
+			},
+			{
+				"name": "FirstName",
+				"type": "char"
+			},
+			{
+				"name": "MiddleInitial",
+				"type": "char"
+			},
+			{
+				"name": "Gender",
+				"type": "char"
+			},
+			{
+				"name": "Tier",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DOB",
+				"type": "date"
+			},
+			{
+				"name": "AddressLine1",
+				"type": "varchar"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "varchar"
+			},
+			{
+				"name": "PostalCode",
+				"type": "char"
+			},
+			{
+				"name": "City",
+				"type": "char"
+			},
+			{
+				"name": "StateProv",
+				"type": "char"
+			},
+			{
+				"name": "Country",
+				"type": "char"
+			},
+			{
+				"name": "Phone1",
+				"type": "char"
+			},
+			{
+				"name": "Phone2",
+				"type": "char"
+			},
+			{
+				"name": "Phone3",
+				"type": "char"
+			},
+			{
+				"name": "Email1",
+				"type": "char"
+			},
+			{
+				"name": "Email2",
+				"type": "char"
+			},
+			{
+				"name": "NationalTaxRateDesc",
+				"type": "varchar"
+			},
+			{
+				"name": "NationalTaxRate",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 5
+			},
+			{
+				"name": "LocalTaxRateDesc",
+				"type": "varchar"
+			},
+			{
+				"name": "LocalTaxRate",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 5
+			},
+			{
+				"name": "AgencyID",
+				"type": "char"
+			},
+			{
+				"name": "CreditRating",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NetWorth",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "MarketingNameplate",
+				"type": "varchar"
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "BatchID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EffectiveDate",
+				"type": "date"
+			},
+			{
+				"name": "EndDate",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCustomer"
+		}
+	}
+}

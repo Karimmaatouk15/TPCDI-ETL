@@ -1,0 +1,125 @@
+{
+	"name": "DimTradeMsgs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TradeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_BrokerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_CreateDateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_CreateTimeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_CloseDateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_CloseTimeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Status",
+				"type": "char"
+			},
+			{
+				"name": "DT_Type",
+				"type": "char"
+			},
+			{
+				"name": "CashFlag",
+				"type": "bit"
+			},
+			{
+				"name": "SK_SecurityID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_CompanyID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Quantity",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "BidPrice",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "SK_CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_AccountID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ExecutedBy",
+				"type": "char"
+			},
+			{
+				"name": "TradePrice",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "Fee",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Commission",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Tax",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "BatchID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimTrade"
+		}
+	}
+}

@@ -1,0 +1,143 @@
+{
+	"name": "ProspMessages",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "AgencyID",
+				"type": "char"
+			},
+			{
+				"name": "SK_RecordDateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_UpdateDateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BatchID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "IsCustomer",
+				"type": "bit"
+			},
+			{
+				"name": "LastName",
+				"type": "char"
+			},
+			{
+				"name": "FirstName",
+				"type": "char"
+			},
+			{
+				"name": "MiddleInitial",
+				"type": "char"
+			},
+			{
+				"name": "Gender",
+				"type": "char"
+			},
+			{
+				"name": "AddressLine1",
+				"type": "char"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "char"
+			},
+			{
+				"name": "PostalCode",
+				"type": "char"
+			},
+			{
+				"name": "City",
+				"type": "char"
+			},
+			{
+				"name": "State",
+				"type": "char"
+			},
+			{
+				"name": "Country",
+				"type": "char"
+			},
+			{
+				"name": "Phone",
+				"type": "char"
+			},
+			{
+				"name": "Income",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "numericberCars",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "numericberChildren",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "MaritalStatus",
+				"type": "char"
+			},
+			{
+				"name": "Age",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "CreditRating",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "OwnOrRentFlag",
+				"type": "char"
+			},
+			{
+				"name": "Employer",
+				"type": "char"
+			},
+			{
+				"name": "numericberCreditCards",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "NetWorth",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 0
+			},
+			{
+				"name": "MarketingNameplate",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Prospect"
+		}
+	}
+}

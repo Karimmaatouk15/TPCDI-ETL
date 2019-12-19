@@ -1,0 +1,34 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Cust",
+						"type": "DatasetReference"
+					},
+					"name": "Cust"
+				},
+				{
+					"dataset": {
+						"referenceName": "CompMessages",
+						"type": "DatasetReference"
+					},
+					"name": "Comp"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimTradeMsgs",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"script": "\n\nsource(output(\n\t\tSK_CustomerID as integer,\n\t\tCustomerID as integer,\n\t\tTaxID as string,\n\t\tStatus as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tMiddleInitial as string,\n\t\tGender as string,\n\t\tTier as integer,\n\t\tDOB as date,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tPostalCode as string,\n\t\tCity as string,\n\t\tStateProv as string,\n\t\tCountry as string,\n\t\tPhone1 as string,\n\t\tPhone2 as string,\n\t\tPhone3 as string,\n\t\tEmail1 as string,\n\t\tEmail2 as string,\n\t\tNationalTaxRateDesc as string,\n\t\tNationalTaxRate as decimal(6,5),\n\t\tLocalTaxRateDesc as string,\n\t\tLocalTaxRate as decimal(6,5),\n\t\tAgencyID as string,\n\t\tCreditRating as integer,\n\t\tNetWorth as decimal(10,0),\n\t\tMarketingNameplate as string,\n\t\tIsCurrent as boolean,\n\t\tBatchID as integer,\n\t\tEffectiveDate as date,\n\t\tEndDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Cust\nsource(output(\n\t\tSK_CompanyID as integer,\n\t\tCompanyID as integer,\n\t\tStatus as string,\n\t\tName as string,\n\t\tIndustry as string,\n\t\tSPrating as string,\n\t\tisLowGrade as boolean,\n\t\tCEO as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tPostalCode as string,\n\t\tCity as string,\n\t\tStateProv as string,\n\t\tCountry as string,\n\t\tDescription as string,\n\t\tFoundingDate as date,\n\t\tIsCurrent as boolean,\n\t\tBatchID as decimal(5,0),\n\t\tEffectiveDate as date,\n\t\tEndDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Comp\nsource(output(\n\t\tTradeID as integer,\n\t\tSK_BrokerID as integer,\n\t\tSK_CreateDateID as integer,\n\t\tSK_CreateTimeID as integer,\n\t\tSK_CloseDateID as integer,\n\t\tSK_CloseTimeID as integer,\n\t\tStatus as string,\n\t\tDT_Type as string,\n\t\tCashFlag as boolean,\n\t\tSK_SecurityID as integer,\n\t\tSK_CompanyID as integer,\n\t\tQuantity as decimal(6,0),\n\t\tBidPrice as decimal(8,2),\n\t\tSK_CustomerID as integer,\n\t\tSK_AccountID as integer,\n\t\tExecutedBy as string,\n\t\tTradePrice as decimal(8,2),\n\t\tFee as decimal(10,2),\n\t\tCommission as decimal(10,2),\n\t\tTax as decimal(10,2),\n\t\tBatchID as decimal(5,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1"
+		}
+	}
+}
