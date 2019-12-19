@@ -1,0 +1,48 @@
+{
+	"name": "audit",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "Audit",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "DataSet",
+				"type": "String"
+			},
+			{
+				"name": " BatchID ",
+				"type": "String"
+			},
+			{
+				"name": "Date ",
+				"type": "String"
+			},
+			{
+				"name": " Attribute ",
+				"type": "String"
+			},
+			{
+				"name": " Value",
+				"type": "String"
+			},
+			{
+				"name": " DValue",
+				"type": "String"
+			}
+		]
+	}
+}

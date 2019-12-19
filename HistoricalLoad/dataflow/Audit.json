@@ -1,0 +1,20 @@
+{
+	"name": "Audit",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "audit",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"script": "\n\nsource(output(\n\t\tDataSet as string,\n\t\t{ BatchID } as string,\n\t\t{Date } as string,\n\t\t{ Attribute } as string,\n\t\t{ Value} as string,\n\t\t{ DValue} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true) ~> source1"
+		}
+	}
+}
