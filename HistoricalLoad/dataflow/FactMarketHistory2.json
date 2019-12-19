@@ -1,0 +1,72 @@
+{
+	"name": "FactMarketHistory2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText18",
+						"type": "DatasetReference"
+					},
+					"name": "originaltxt"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable19",
+						"type": "DatasetReference"
+					},
+					"name": "DimSecurity"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable20",
+						"type": "DatasetReference"
+					},
+					"name": "DimDate"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable21",
+						"type": "DatasetReference"
+					},
+					"name": "Financial"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "security"
+				},
+				{
+					"name": "date"
+				},
+				{
+					"name": "financial1"
+				},
+				{
+					"name": "Select4"
+				},
+				{
+					"name": "Sort1"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "Select5"
+				},
+				{
+					"name": "Aggregate1"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> originaltxt\nsource(output(\n\t\tSK_SecurityID as integer,\n\t\tSymbol as string,\n\t\tIssue as string,\n\t\tStatus as string,\n\t\tName as string,\n\t\tExchangeID as string,\n\t\tSK_CompanyID as integer,\n\t\tSharesOutstanding as integer,\n\t\tFirstTrade as date,\n\t\tFirstTradeOnExchange as date,\n\t\tDividend as integer,\n\t\tIsCurrent as boolean,\n\t\tBatchID as decimal(5,0),\n\t\tEffectiveDate as date,\n\t\tEndDate as date\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimSecurity\nsource(output(\n\t\tSK_DateID as integer,\n\t\tDateValue as date,\n\t\tDateDesc as string,\n\t\tCalendarYearID as decimal(4,0),\n\t\tCalendarYearDesc as string,\n\t\tCalendarQtrID as decimal(5,0),\n\t\tCalendarQtrDesc as string,\n\t\tCalendarMonthID as decimal(6,0),\n\t\tCalendarMonthDesc as string,\n\t\tCalendarWeekID as decimal(6,0),\n\t\tCalendarWeekDesc as string,\n\t\tDayOfWeeknumeric as decimal(1,0),\n\t\tDayOfWeekDesc as string,\n\t\tFiscalYearID as decimal(4,0),\n\t\tFiscalYearDesc as string,\n\t\tFiscalQtrID as decimal(5,0),\n\t\tFiscalQtrDesc as string,\n\t\tHolidayFlag as boolean\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimDate\nsource(output(\n\t\tSK_CompanyID as integer,\n\t\tFI_YEAR as decimal(4,0),\n\t\tFI_QTR as decimal(1,0),\n\t\tFI_QTR_START_DATE as date,\n\t\tFI_REVENUE as decimal(15,2),\n\t\tFI_NET_EARN as decimal(15,2),\n\t\tFI_BASIC_EPS as decimal(10,2),\n\t\tFI_DILUT_EPS as decimal(10,2),\n\t\tFI_MARGIN as decimal(10,2),\n\t\tFI_INVENTORY as decimal(15,2),\n\t\tFI_ASSETS as decimal(15,2),\n\t\tFI_LIABILITY as decimal(15,2),\n\t\tFI_OUT_BASIC as decimal(12,0),\n\t\tFI_OUT_DILUT as decimal(12,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Financial\noriginaltxt derive(DM_Date = toDate(split(Column_1,'|')[1],'yyyy-mm-dd'),\n\t\tDM_SYMB = split(Column_1,'|')[2],\n\t\tClosePrice = split(Column_1,'|')[3],\n\t\tDayHigh = split(Column_1,'|')[4],\n\t\tDayLow = split(Column_1,'|')[5],\n\t\t{Volume } = split(Column_1,'|')[6]) ~> DerivedColumn1\nDimSecurity select(mapColumn(\n\t\tSK_SecurityID,\n\t\tSymbol,\n\t\tSK_CompanyID,\n\t\tDividend,\n\t\tEffectiveDate,\n\t\tEndDate\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> security\nDimDate select(mapColumn(\n\t\tSK_DateID,\n\t\tDateValue\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> date\nFinancial select(mapColumn(\n\t\tSK_CompanyID,\n\t\tFI_YEAR,\n\t\tFI_QTR,\n\t\tFI_QTR_START_DATE,\n\t\tFI_BASIC_EPS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> financial1\nSort1 select(mapColumn(\n\t\tDM_Date,\n\t\tDM_SYMB,\n\t\tClosePrice,\n\t\tDayHigh,\n\t\tDayLow,\n\t\t{Volume }\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select4\nDerivedColumn1 sort(asc(DM_SYMB, true),\n\tasc(DM_Date, true)) ~> Sort1\nSelect4, date join(DM_Date == DateValue,\n\tjoinType:'left',\n\tbroadcast: 'none')~> Join3\nsecurity, Join3 join(DM_SYMB == Symbol && DM_Date >= EffectiveDate && DM_Date <EndDate,\n\tjoinType:'cross',\n\tbroadcast: 'none')~> Join4\nJoin4 select(mapColumn(\n\t\tSK_SecurityID1 = SK_SecurityID,\n\t\tSymbol1 = Symbol,\n\t\tSK_CompanyID1 = SK_CompanyID,\n\t\tDividend1 = Dividend,\n\t\tEffectiveDate1 = EffectiveDate,\n\t\tEndDate1 = EndDate,\n\t\tDM_Date1 = DM_Date,\n\t\tDM_SYMB1 = DM_SYMB,\n\t\tClosePrice1 = ClosePrice,\n\t\tDayHigh1 = DayHigh,\n\t\tDayLow1 = DayLow,\n\t\t{Volume 1} = {Volume },\n\t\tSK_DateID1 = SK_DateID,\n\t\tDateValue1 = DateValue\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select5\nSelect5 aggregate() ~> Aggregate1"
+		}
+	}
+}
