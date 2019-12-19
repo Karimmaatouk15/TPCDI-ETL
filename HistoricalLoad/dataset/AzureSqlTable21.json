@@ -1,0 +1,104 @@
+{
+	"name": "AzureSqlTable21",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_DateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DateValue",
+				"type": "date"
+			},
+			{
+				"name": "DateDesc",
+				"type": "char"
+			},
+			{
+				"name": "CalendarYearID",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CalendarYearDesc",
+				"type": "char"
+			},
+			{
+				"name": "CalendarQtrID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "CalendarQtrDesc",
+				"type": "char"
+			},
+			{
+				"name": "CalendarMonthID",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "CalendarMonthDesc",
+				"type": "char"
+			},
+			{
+				"name": "CalendarWeekID",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "CalendarWeekDesc",
+				"type": "char"
+			},
+			{
+				"name": "DayOfWeeknumeric",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DayOfWeekDesc",
+				"type": "char"
+			},
+			{
+				"name": "FiscalYearID",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "FiscalYearDesc",
+				"type": "char"
+			},
+			{
+				"name": "FiscalQtrID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "FiscalQtrDesc",
+				"type": "char"
+			},
+			{
+				"name": "HolidayFlag",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimDate"
+		}
+	}
+}
