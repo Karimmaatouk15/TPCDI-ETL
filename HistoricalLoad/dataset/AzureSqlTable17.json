@@ -9,29 +9,29 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "SK_SecurityID",
+				"name": "TradeID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "Symbol",
-				"type": "char"
+				"name": "CurrentTradeID",
+				"type": "int",
+				"precision": 10
 			},
 			{
-				"name": "Issue",
-				"type": "char"
+				"name": "SK_CustomerID",
+				"type": "int",
+				"precision": 10
 			},
 			{
-				"name": "Status",
-				"type": "char"
+				"name": "SK_AccountID",
+				"type": "int",
+				"precision": 10
 			},
 			{
-				"name": "Name",
-				"type": "char"
-			},
-			{
-				"name": "ExchangeID",
-				"type": "char"
+				"name": "SK_SecurityID",
+				"type": "int",
+				"precision": 10
 			},
 			{
 				"name": "SK_CompanyID",
@@ -39,45 +39,36 @@
 				"precision": 10
 			},
 			{
-				"name": "SharesOutstanding",
+				"name": "SK_DateID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "FirstTrade",
-				"type": "date"
-			},
-			{
-				"name": "FirstTradeOnExchange",
-				"type": "date"
-			},
-			{
-				"name": "Dividend",
+				"name": "SK_TimeID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "IsCurrent",
-				"type": "bit"
+				"name": "CurrentPrice",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CurrentHolding",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
 			},
 			{
 				"name": "BatchID",
 				"type": "decimal",
 				"precision": 5,
 				"scale": 0
-			},
-			{
-				"name": "EffectiveDate",
-				"type": "date"
-			},
-			{
-				"name": "EndDate",
-				"type": "date"
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "DimSecurity"
+			"table": "FactHoldings"
 		}
 	}
 }
