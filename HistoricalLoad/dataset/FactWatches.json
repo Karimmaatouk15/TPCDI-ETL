@@ -1,0 +1,43 @@
+{
+	"name": "FactWatches",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_SecurityID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_DateID_DatePlaced",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SK_DateID_DateRemoved",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BatchID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FactWatches"
+		}
+	}
+}
