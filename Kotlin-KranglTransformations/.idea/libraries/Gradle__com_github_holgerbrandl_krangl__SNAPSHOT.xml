@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.holgerbrandl:krangl:-SNAPSHOT">
+    <CLASSES>
+      <root url="file://$APPLICATION_HOME_DIR$/jbr/bin/Could not find com.github.holgerbrandl:krangl:-SNAPSHOT." />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.holgerbrandl/krangl/-SNAPSHOT/a4b91cd9f5afb2d73ddde6add33ece6f1883ed1c/krangl--SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.holgerbrandl/krangl/-SNAPSHOT/bb88c0819c08033d2ff7d65380912f7be09466f4/krangl--SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
